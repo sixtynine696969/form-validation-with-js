@@ -12,6 +12,8 @@ const passwordError = document.querySelector('#password + span.error');
 const passwordConfirmation = document.getElementById('password-confirmation');
 const passwordConfirmationError = document.querySelector('#password-confirmation + span.error');
 
+const form = document.querySelector('form');
+
 const ZIPconstraints = {
     it: {
         placeholder: "00144",
@@ -45,7 +47,7 @@ function validateEmail() {
 
     if (email.value.length === 0) {
         errorMessage = "Email field cannot be empty.";
-    } else if (!emailRegExp.test(email.value)) {
+    } else if (!isValid) {
         errorMessage = 'Invalid email address'
     }
 
@@ -73,12 +75,17 @@ function updateZIPPlaceholder() {
 function validateZIP() {
     const regex = new RegExp(ZIPconstraints[countryCode]['regex']);
 
-    const isValid = ZIP.value.length === 0 || regex.test(ZIP.value)
+    const isValid = regex.test(ZIP.value)
+    if (ZIP.value.length === 0) {
+        errorMessage = "ZIP code field cannot be empty.";
+    } else if (!isValid) {
+        errorMessage = ZIPconstraints[countryCode]['message'];
+    }
+
     if (!isValid) {
         ZIP.classList.add('invalid')
         
-
-        ZIPError.textContent = ZIPconstraints[countryCode]['message'];
+        ZIPError.textContent = errorMessage;
         ZIPError.classList.add('active');
     } else {
         ZIP.classList.remove('invalid');
@@ -89,13 +96,22 @@ function validateZIP() {
 }
 
 function validatePasswords() {
-    if (passwordConfirmation.value !== password.value) {
+
+    let errorMessage;
+
+    if (password.value.length === 0) {
+        errorMessage = 'Password field cannot be empty';
+    } else if (passwordConfirmation.value !== password.value) {
+        errorMessage = 'Passwords do not match.';
+    }
+
+    if (passwordConfirmation.value !== password.value || password.value.length === 0) {
         passwordConfirmation.classList.add('invalid');
-        passwordConfirmationError.textContent = 'Passwords do not match.';
+        passwordConfirmationError.textContent = errorMessage;
         passwordConfirmationError.classList.add('active');
 
         password.classList.add('invalid');
-        passwordError.textContent = 'Passwords do not match.';
+        passwordError.textContent = errorMessage;
         passwordError.classList.add('active');
     } else {
         passwordConfirmation.classList.remove('invalid');
@@ -108,14 +124,32 @@ function validatePasswords() {
     }
 }
 
-email.oninput = validateEmail
-email.onfocus = validateEmail
+function validateForm() {
+    validateEmail();
+    validateZIP();
+    validatePasswords();
+}
 
-country.onchange = updateZIPPlaceholder;
+function init() {
+    email.oninput = validateEmail;
+    email.onfocus = validateEmail;
 
-ZIP.oninput = validateZIP;
+    country.onchange = updateZIPPlaceholder;
 
-passwordConfirmation.onchange = validatePasswords;
-password.onchange = validatePasswords;
+    ZIP.oninput = validateZIP;
+    ZIP.onfocus = validateZIP;
 
-updateZIPPlaceholder() // run at least once
+    password.oninput = validatePasswords;
+    password.onfocus = validatePasswords;
+    passwordConfirmation.oninput = validatePasswords;
+    passwordConfirmation.onfocus = validatePasswords;
+
+    updateZIPPlaceholder() // run at least once
+};
+
+init();
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    validateForm();
+})
