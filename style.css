@@ -61,7 +61,7 @@ input.invalid:not(:focus) {
 
 span.error {
     position: absolute;
-    top: 22px;
+    top: 23px;
     right: 0;
     font-size: 80%;
     display: none;
