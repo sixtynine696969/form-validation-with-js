@@ -18,23 +18,23 @@ const ZIPconstraints = {
     it: {
         placeholder: "00144",
         regex: "^\\d{5}$",
-        message: "Italy ZIP code must have exactly 5 digits.",
+        message: "ZIP code must have exactly 5 digits.",
     },
     gr: {
         placeholder: "151 24",
         regex: "^\\d{3}\\s{0,1}\\d{2}$",
-        message: "Greece ZIP code must have exactly 5 digits with space between 3rd and 4th digit."
+        message: "ZIP code must have exactly 5 digits with space between 3rd and 4th digit."
 
     },
     be: {
         placeholder: "5310",
         regex: "^\\d{4}$",
-        message: "Belgium ZIP code must have exactly 4 digits."
+        message: "ZIP code must have exactly 4 digits."
     },
     at: {
         placeholder: "1999",
         regex: "^\\d{4}$",
-        message: "Austria ZIP code must have exactly 4 digits."
+        message: "ZIP code must have exactly 4 digits."
     },
 }
 
