@@ -130,7 +130,7 @@ function validateForm() {
     validatePasswords();
 }
 
-function init() {
+(function init() {
     email.oninput = validateEmail;
     email.onfocus = validateEmail;
 
@@ -145,9 +145,7 @@ function init() {
     passwordConfirmation.onfocus = validatePasswords;
 
     updateZIPPlaceholder() // run at least once
-};
-
-init();
+});
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
