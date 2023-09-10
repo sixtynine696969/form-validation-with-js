@@ -145,7 +145,7 @@ function validateForm() {
     passwordConfirmation.onfocus = validatePasswords;
 
     updateZIPPlaceholder() // run at least once
-});
+})();
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
